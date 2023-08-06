@@ -2,7 +2,9 @@ name: test and build changes
 
 on:
   push:
-    branches: '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   test_and_build:
