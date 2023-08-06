@@ -1,0 +1,17 @@
+@import "~@coreui/coreui/scss/coreui";
+
+:root {
+    --cui-primary-rgb: #00564d;
+    --cui-secondary-rgb: #08977b;
+    --cui-body-bg-rgb: #282828;
+    --cui-light-rgb: white;
+    --cui-body-bg: var(--cui-body-bg-rgb);
+}
+
+.header {
+    color: var(--cui-light-rgb);
+    font-weight: bold;
+    font-size: large;
+    --cui-header-bg: var(--cui-primary-rgb);
+    --cui-header-border: 0 solid;
+}
