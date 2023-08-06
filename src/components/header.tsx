@@ -4,7 +4,7 @@ const Header = () => {
     return (
         <>
             <CHeader className="header">
-                User Records
+                User Records App
             </CHeader>
         </>
     )
