@@ -6,7 +6,7 @@ name: test-build-deploy main to firebase hosting
       - main
       - gh-actions-setup
 jobs:
-  build_and_deploy:
+  test_build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
