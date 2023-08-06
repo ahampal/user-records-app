@@ -18,14 +18,14 @@ const converter = {
 const userCollection = collection(db, 'users').withConverter(converter);
 
 const Table = () => {
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<Record<string, User>>({});
 
     useEffect(() => {
         const getUsers = async () => {
             const docs = await getDocs(userCollection);
-            const retrievedUsers: User[] = [];
+            const retrievedUsers: Record<string, User> = {};
             docs.forEach(doc => {
-                retrievedUsers.push(doc.data());
+                retrievedUsers[doc.id] = doc.data();
             });
             setUsers(retrievedUsers);
         }
@@ -45,7 +45,7 @@ const Table = () => {
                     </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                    {users && users.length > 0 && users.map(user => (
+                    {users && Object.values(users).length > 0 && Object.values(users).map(user => (
                         <CTableRow>
                             <CTableHeaderCell scope="row">{user.name}</CTableHeaderCell>
                             <CTableDataCell>{user.birth_date.toDate().toDateString()}</CTableDataCell>
