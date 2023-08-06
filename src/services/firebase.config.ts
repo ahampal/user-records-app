@@ -1,14 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import 'dotenv/config'
 
 const firebaseConfig = {
-    apiKey: `${process.env.FIREBASE_API_KEY}`,
-    authDomain: `${process.env.FIREBASE_AUTH_DOMAIN}`,
-    projectId: `${process.env.FIREBASE_PROJECT_ID}`,
-    storageBucket: `${process.env.FIREBASE_STORAGE_BUCKET}`,
-    messagingSenderId: `${process.env.FIREBASE_MESSAGING_SENDER_ID}`,
-    appId: `${process.env.FIREBASE_APP_ID}`
+    apiKey: "AIzaSyCZcMIt1cNBUWip4FpexgMjAUlWMaH9GLU",
+    authDomain: "user-records-app.firebaseapp.com",
+    projectId: "user-records-app",
+    storageBucket: "user-records-app.appspot.com",
+    messagingSenderId: "189805852661",
+    appId: "1:189805852661:web:7ba4e1d8ea2f03b651d2bc"
 };
 
 const app = initializeApp(firebaseConfig);
