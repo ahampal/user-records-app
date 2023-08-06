@@ -12,6 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - run: npm ci
-      - run: npm run test:ci
-      - run: npm run build
+      - name: install deps
+        run: npm ci
+      - name: unit tests
+        run: npm run test:ci
+      - name: build
+        run: npm run 
+      - name: upload build artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: build
+          path: build
