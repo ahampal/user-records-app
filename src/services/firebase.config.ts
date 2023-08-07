@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZcMIt1cNBUWip4FpexgMjAUlWMaH9GLU",
@@ -13,4 +13,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export default db;
+const converter = {
+    toFirestore: (data: User) => data,
+    fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as User
+};
+
+const userCollection = collection(db, 'users').withConverter(converter);
+
+export default userCollection;

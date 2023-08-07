@@ -6,32 +6,13 @@ import {
     CTableBody,
     CTableDataCell
 } from '@coreui/react';
-import React, { useState, useEffect } from 'react';
-import db from '../services/firebase.config';
-import { collection, getDocs, QueryDocumentSnapshot } from 'firebase/firestore';
 
-const converter = {
-    toFirestore: (data: User) => data,
-    fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as User
-};
 
-const userCollection = collection(db, 'users').withConverter(converter);
+type Prop = {
+    users: Record<string, User>
+}
 
-const Table = () => {
-    const [users, setUsers] = useState<Record<string, User>>({});
-
-    useEffect(() => {
-        const getUsers = async () => {
-            const docs = await getDocs(userCollection);
-            const retrievedUsers: Record<string, User> = {};
-            docs.forEach(doc => {
-                retrievedUsers[doc.id] = doc.data();
-            });
-            setUsers(retrievedUsers);
-        }
-        getUsers();
-    }, []);
-
+const Table = ({ users }: Prop) => {
     return (
         <>
             <CTable bordered className='table'>

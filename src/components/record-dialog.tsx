@@ -6,19 +6,23 @@ import {
     CModalFooter,
     CButton
 } from '@coreui/react'
+import { addDoc, Timestamp } from 'firebase/firestore';
 import { useEffect } from 'react';
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form"
 import Select from './select-box';
+import userCollection from '../services/firebase.config'
 
 type Props = {
     isOpen: boolean;
     isCreate: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    users: Record<string, User>;
+    setUsers: React.Dispatch<React.SetStateAction<Record<string, User>>>;
 }
 
-const Dialog = ({ isOpen, setOpen, isCreate }: Props) => {
+const Dialog = ({ isOpen, setOpen, isCreate, users, setUsers }: Props) => {
     const { handleSubmit, control, register, getValues, resetField, watch, reset } = useForm<FormValues>()
     const watchCountry = watch("country")
 
@@ -26,7 +30,22 @@ const Dialog = ({ isOpen, setOpen, isCreate }: Props) => {
 
     const renderSaveBtn = () => isCreate ? 'Create' : 'Update';
 
-    const saveBtn = (data: FormValues) => {
+    const saveBtn = async (data: FormValues) => {
+        const newUser = {
+            name: data.user_name,
+            birth_date: Timestamp.fromDate(data.birth_date),
+            city: {
+                value: data.city.value,
+                label: data.city.label,
+            },
+            country: {
+                value: data.country.value,
+                label: data.country.label,
+            }
+        }
+        const docRef = await addDoc(userCollection, newUser);
+        users[docRef.id] = { ...newUser, id: docRef.id }
+        setUsers(users)
         setOpen(false);
     }
 
