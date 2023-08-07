@@ -6,7 +6,7 @@ import {
     CModalFooter,
     CButton
 } from '@coreui/react'
-import { addDoc, Timestamp } from 'firebase/firestore';
+import { addDoc, Timestamp, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,19 +16,19 @@ import userCollection from '../services/firebase.config'
 
 type Props = {
     isOpen: boolean;
-    isCreate: boolean;
+    updateUser?: UserWithRef;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    users: Record<string, User>;
-    setUsers: React.Dispatch<React.SetStateAction<Record<string, User>>>;
+    users: Record<string, UserWithRef>;
+    setUsers: React.Dispatch<React.SetStateAction<Record<string, UserWithRef>>>;
 }
 
-const Dialog = ({ isOpen, setOpen, isCreate, users, setUsers }: Props) => {
-    const { handleSubmit, control, register, getValues, resetField, watch, reset } = useForm<FormValues>()
+const Dialog = ({ isOpen, setOpen, updateUser, users, setUsers }: Props) => {
+    const { handleSubmit, control, register, getValues, resetField, watch, reset, setValue } = useForm<FormValues>()
     const watchCountry = watch("country")
 
-    const renderTitle = () => isCreate ? 'Add User' : 'Update User';
+    const renderTitle = () => !updateUser ? 'Add User' : 'Update User';
 
-    const renderSaveBtn = () => isCreate ? 'Create' : 'Update';
+    const renderSaveBtn = () => !updateUser ? 'Create' : 'Update';
 
     const saveBtn = async (data: FormValues) => {
         const newUser = {
@@ -43,8 +43,14 @@ const Dialog = ({ isOpen, setOpen, isCreate, users, setUsers }: Props) => {
                 label: data.country.label,
             }
         }
-        const docRef = await addDoc(userCollection, newUser);
-        users[docRef.id] = { ...newUser, id: docRef.id }
+        if (!updateUser) {
+            const docRef = await addDoc(userCollection, newUser);
+            const doc = await getDoc(docRef);
+            users[docRef.id] = { ...doc.data(), docRef: docRef.id }
+        } else {
+            await setDoc(updateUser.docRef, newUser)
+            users[updateUser.docRef.id] = { ...newUser, docRef: updateUser.docRef }
+        }
         setUsers(users)
         setOpen(false);
     }
@@ -53,6 +59,14 @@ const Dialog = ({ isOpen, setOpen, isCreate, users, setUsers }: Props) => {
         setOpen(false)
         reset()
     }
+
+    useEffect(() => {
+        if (updateUser?.name) setValue("user_name", updateUser.name)
+        if (updateUser?.birth_date) setValue("birth_date", updateUser.birth_date.toDate())
+        if (updateUser?.country) setValue("country", updateUser.country)
+        if (updateUser?.city) setValue("city", updateUser.city)
+    }, [setValue, updateUser])
+
     useEffect(() => {
         resetField("city", { keepDirty: false, keepTouched: false, keepError: false })
     }, [resetField, getValues, watchCountry])

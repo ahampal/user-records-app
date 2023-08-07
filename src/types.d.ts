@@ -4,12 +4,13 @@ type Place = {
 };
 
 type User = {
-    id: string;
-    birth_date: import('firebase/firestore').Timestamp;
-    city: Place;
-    country: Place;
-    name: string;
+    birth_date?: import('firebase/firestore').Timestamp;
+    city?: Place;
+    country?: Place;
+    name?: string;
 };
+
+type UserWithRef = User & { docRef: DocumentReference<User, User> }
 
 type FormValues = {
     user_name: string;

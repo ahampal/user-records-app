@@ -11,14 +11,14 @@ import { cilPlus } from '@coreui/icons';
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [users, setUsers] = useState<Record<string, User>>({});
+  const [users, setUsers] = useState<Record<string, UserWithRef>>({});
 
   useEffect(() => {
     const getUsers = async () => {
       const docs = await getDocs(userCollection);
-      const retrievedUsers: Record<string, User> = {};
+      const retrievedUsers: Record<string, UserWithRef> = {};
       docs.forEach(doc => {
-        retrievedUsers[doc.id] = doc.data();
+        retrievedUsers[doc.id] = { ...doc.data(), docRef: doc.ref }
       });
       setUsers(retrievedUsers);
     }
@@ -27,7 +27,7 @@ function App() {
 
   const handleAddUserClick = () => setDialogOpen(true);
 
-  const renderRecordDialog = (): JSX.Element => <Dialog isOpen={dialogOpen} setOpen={setDialogOpen} users={users} setUsers={setUsers} isCreate={true} />
+  const renderRecordDialog = (): JSX.Element => <Dialog isOpen={dialogOpen} setOpen={setDialogOpen} users={users} setUsers={setUsers} />
 
   return (
     <>
@@ -38,7 +38,7 @@ function App() {
           Add User
         </CButton>
         {renderRecordDialog()}
-        <Table users={users} />
+        <Table users={users} setUsers={setUsers} />
       </CContainer>
     </>
   );
