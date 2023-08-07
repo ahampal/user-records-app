@@ -51,6 +51,7 @@ const Select = ({ options, control, boxName }: Props) => {
                 )}
                 name={boxName}
                 control={control}
+                rules={{ required: true, minLength: 1 }}
             />
         </>
     )

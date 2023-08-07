@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form"
-import ReactSelect from 'react-select';
 import Select from './select-box';
 
 type Props = {
@@ -19,19 +18,8 @@ type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const selectColors = {
-    primary: '#00564d',
-    neutral0: '#282828',
-    neutral20: 'white',
-    neutral80: 'white',
-    neutral90: '#282828',
-    primary25: '#282828',
-    primary50: '#282828',
-    primary75: '#282828',
-}
-
 const Dialog = ({ isOpen, setOpen, isCreate }: Props) => {
-    const { handleSubmit, control, register, getValues, resetField, watch } = useForm<FormValues>()
+    const { handleSubmit, control, register, getValues, resetField, watch, reset } = useForm<FormValues>()
     const watchCountry = watch("country")
 
     const renderTitle = () => isCreate ? 'Add User' : 'Update User';
@@ -42,28 +30,39 @@ const Dialog = ({ isOpen, setOpen, isCreate }: Props) => {
         setOpen(false);
     }
 
-    const closeBtn = () => setOpen(false)
-
+    const closeBtn = () => {
+        setOpen(false)
+        reset()
+    }
     useEffect(() => {
-        resetField("city", { defaultValue: { value: "", label: "" } })
+        resetField("city")
     }, [resetField, getValues, watchCountry])
 
     const renderCitySelect = () => {
         const country = getValues("country");
-        if (!country?.value || !country?.label) return <div />
-        const canCities = [
-            { value: "TO", label: "Toronto" },
-            { value: "OT", label: "City of Ottawa" }
-        ]
-        const usCities = [
-            { value: "LV", label: "City of Las Vegas" },
-            { value: "CH", label: "Chicago" }
-        ]
+
+        const selectOptions = (countryCode: string) => {
+            switch (countryCode) {
+                case "CA":
+                    return [
+                        { value: "TO", label: "Toronto" },
+                        { value: "OT", label: "City of Ottawa" }
+                    ]
+                case "US":
+                    return [
+                        { value: "LV", label: "City of Las Vegas" },
+                        { value: "CH", label: "Chicago" }
+                    ]
+                default:
+                    return []
+            }
+        }
+
         return (
             <>
                 <label>City</label>
                 <Select
-                    options={country.value === "CA" ? canCities : usCities}
+                    options={selectOptions(country?.value)}
                     boxName="city"
                     control={control}
                 />
@@ -96,6 +95,7 @@ const Dialog = ({ isOpen, setOpen, isCreate }: Props) => {
                                     />
                                 </div>
                             )}
+                            rules={{ required: true }}
                         />
 
                         <label>Country</label>
