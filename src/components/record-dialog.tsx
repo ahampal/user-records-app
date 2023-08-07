@@ -131,6 +131,8 @@ const Dialog = ({ isOpen, setOpen, updateUser, users, setUsers }: Props) => {
                                         {...fieldProps}
                                         className="input"
                                         selected={value}
+                                        showYearDropdown
+                                        dropdownMode="select"
                                     />
                                 </div>
                             )}
