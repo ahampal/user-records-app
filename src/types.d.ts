@@ -10,3 +10,10 @@ type User = {
     country: Place;
     name: string;
 };
+
+type FormValues = {
+    user_name: string;
+    birth_date: Date;
+    country: Place;
+    city: Place;
+};
