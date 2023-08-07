@@ -6,7 +6,7 @@ import {
     CModalFooter,
     CButton
 } from '@coreui/react'
-import { addDoc, Timestamp, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, Timestamp, setDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
 import ReactDatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
@@ -43,13 +43,19 @@ const Dialog = ({ isOpen, setOpen, updateUser, users, setUsers }: Props) => {
                 label: data.country.label,
             }
         }
+        let docRef;
         if (!updateUser) {
-            const docRef = await addDoc(userCollection, newUser);
-            const doc = await getDoc(docRef);
-            users[docRef.id] = { ...doc.data(), docRef: docRef.id }
+            docRef = await addDoc(userCollection, newUser);
         } else {
             await setDoc(updateUser.docRef, newUser)
-            users[updateUser.docRef.id] = { ...newUser, docRef: updateUser.docRef }
+            docRef = updateUser.docRef
+        }
+        users[docRef.id] = {
+            name: newUser.name,
+            birth_date: newUser.birth_date,
+            city: newUser.city,
+            country: newUser.country,
+            docRef,
         }
         setUsers(users)
         setOpen(false);
