@@ -12,6 +12,7 @@ import CIcon from '@coreui/icons-react';
 import { cilPencil, cilTrash } from '@coreui/icons';
 import { useState } from 'react';
 import Dialog from './record-dialog';
+import { deleteDoc } from 'firebase/firestore';
 
 
 type Prop = {
@@ -22,7 +23,7 @@ type Prop = {
 const Table = ({ users, setUsers }: Prop) => {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [selectedUser, setSelectedUser] = useState<UserWithRef>();
-
+    const [rerender, setRerender] = useState(false);
 
     const renderRecordDialog = (): JSX.Element => (
         <Dialog
@@ -34,6 +35,13 @@ const Table = ({ users, setUsers }: Prop) => {
         />
     )
 
+    const deleteUser = async (user: UserWithRef) => {
+        await deleteDoc(user.docRef)
+        delete users[user.docRef.id]
+        setUsers(users)
+        setRerender(!rerender)
+    }
+
     const renderOptions = (user: UserWithRef) => {
         return (
             <>
@@ -44,7 +52,7 @@ const Table = ({ users, setUsers }: Prop) => {
                     }}>
                         <CIcon icon={cilPencil} size="sm" className='input' />
                     </CButton>
-                    <CButton className="optionBtn" variant="ghost">
+                    <CButton className="optionBtn" variant="ghost" onClick={() => deleteUser(user)}>
                         <CIcon icon={cilTrash} size="sm" className='input' />
                     </CButton>
                 </CButtonGroup>
