@@ -32,6 +32,17 @@
     --cui-btn-active-border-color: var(--cui-secondary-rgb);
 }
 
+.optionBtn {
+    --cui-btn-color: var(--cui-light-rgb);
+    --cui-btn-hover-bg: transparent;
+    --cui-btn-active-bg: transparent;
+    --cui-btn-hover-color: var(--cui-primary-rgb);
+    --cui-btn-hover-border-color: transparent;
+    margin-right: 10px;
+    --cui-btn-active-color: var(--cui-secondary-rgb);
+    --cui-btn-active-border-color: transparent;
+}
+
 .dialog {
     --cui-modal-color: var(--cui-light-rgb);
 }

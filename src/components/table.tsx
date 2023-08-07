@@ -4,8 +4,12 @@ import {
     CTableRow,
     CTableHeaderCell,
     CTableBody,
-    CTableDataCell
+    CTableDataCell,
+    CButtonGroup,
+    CButton
 } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilPencil, cilTrash } from '@coreui/icons';
 
 
 type Prop = {
@@ -13,6 +17,21 @@ type Prop = {
 }
 
 const Table = ({ users }: Prop) => {
+    const renderOptions = () => {
+        return (
+            <>
+                <CButtonGroup size="sm" role="group" aria-label="Large button group">
+                    <CButton className="optionBtn" variant="ghost">
+                        <CIcon icon={cilPencil} size="sm" className='input' />
+                    </CButton>
+                    <CButton className="optionBtn" variant="ghost">
+                        <CIcon icon={cilTrash} size="sm" className='input' />
+                    </CButton>
+                </CButtonGroup>
+
+            </>
+        )
+    }
     return (
         <>
             <CTable bordered className='table'>
@@ -32,7 +51,7 @@ const Table = ({ users }: Prop) => {
                             <CTableDataCell>{user.birth_date.toDate().toDateString()}</CTableDataCell>
                             <CTableDataCell>{user.country.label}</CTableDataCell>
                             <CTableDataCell>{user.city.label}</CTableDataCell>
-                            <CTableDataCell></CTableDataCell>
+                            <CTableDataCell>{renderOptions()}</CTableDataCell>
                         </CTableRow>
                     ))}
                 </CTableBody>

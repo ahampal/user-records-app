@@ -5,6 +5,8 @@ import Header from './components/header';
 import Dialog from './components/record-dialog';
 import Table from './components/table';
 import userCollection from './services/firebase.config';
+import CIcon from '@coreui/icons-react';
+import { cilPlus } from '@coreui/icons';
 
 
 function App() {
@@ -32,7 +34,8 @@ function App() {
       <Header />
       <CContainer fluid >
         <CButton variant="outline" className="addUserBtn" onClick={handleAddUserClick}>
-          + Add User
+          <CIcon icon={cilPlus} size="sm" className='input' style={{ marginRight: '5px' }} />
+          Add User
         </CButton>
         {renderRecordDialog()}
         <Table users={users} />
