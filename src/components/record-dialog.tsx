@@ -54,7 +54,7 @@ const Dialog = ({ isOpen, setOpen, isCreate, users, setUsers }: Props) => {
         reset()
     }
     useEffect(() => {
-        resetField("city")
+        resetField("city", { keepDirty: false, keepTouched: false, keepError: false })
     }, [resetField, getValues, watchCountry])
 
     const renderCitySelect = () => {
