@@ -23,7 +23,7 @@ type Props = {
 }
 
 const Dialog = ({ isOpen, setOpen, updateUser, users, setUsers }: Props) => {
-    const { handleSubmit, control, register, getValues, resetField, watch, setValue } = useForm<FormValues>()
+    const { handleSubmit, control, register, getValues, resetField, watch, reset, setValue } = useForm<FormValues>()
     const watchCountry = watch("country")
 
     const renderTitle = () => !updateUser ? 'Add User' : 'Update User';
@@ -63,6 +63,7 @@ const Dialog = ({ isOpen, setOpen, updateUser, users, setUsers }: Props) => {
 
     const closeBtn = () => {
         setOpen(false)
+        reset()
     }
 
     useEffect(() => {
