@@ -3,13 +3,13 @@ import ReactSelect from 'react-select';
 
 const selectColors = {
     primary: '#00564d',
-    neutral0: '#282828',
+    neutral0: '#363636',
     neutral20: 'white',
     neutral80: 'white',
-    neutral90: '#282828',
-    primary25: '#282828',
-    primary50: '#282828',
-    primary75: '#282828',
+    neutral90: '#363636',
+    primary25: '#363636',
+    primary50: '#363636',
+    primary75: '#363636',
 }
 
 type Props = {
