@@ -1,6 +1,6 @@
 # User Records App
 
-A simple react app, that consists of one page, with a table, that you can add entries to, edit entries, and delete entries from. Uses CoreUI for react framework on front-end and firebase for back-end.
+A simple react app, that consists of one page, with a table, that you can add entries to, edit entries, and delete entries from. Uses CoreUI for react framework on front-end and firebase for back-end. See https://user-records-app.web.app/ to view latest deployed changes.
 
 ## Available Scripts
 
